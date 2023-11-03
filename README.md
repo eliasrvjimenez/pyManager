@@ -3,8 +3,8 @@
 
 PyManager is a work-in-progress Python script meant to assist it's users in managing their files, among other future planned features. as of right now, the FileManger portion of the script is being built. I will add updates to this progress list in the future:
 
-(https://progress-bar.dev/20/?title=FileManager)
-(https://progress-bar.dev/1/?title=Automation)
+![50% done with FileManager](https://progress-bar.dev/20/?title=FileManager)
+![1% done with Automation](https://progress-bar.dev/1/?title=Automation)
 
 ## Requirements
 
