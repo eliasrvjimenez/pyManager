@@ -7,11 +7,12 @@ import shutil
 import ntpath
 import send2trash
 import json
+import DirectoryCheck as check
 
 # settings.json contains all of the file_organizer settings for the client, created using setup.py
-f = open('settings.json')
+f = open(check.get_settings())
 settings = json.load(f)
-folders = settings["file_organizer"] 
+folders = settings["fileOrganizer"] 
 # a list of all the directories to move files to. 
 
 
@@ -26,7 +27,10 @@ class FileOrganizer():
         - file_type_check: Checks the extension at the end of a file and calls
         file_sort, passing it the file's path and the folder associated with the
         file's extension."""
-
+    def is_sort_folder(self, path):
+        for file_type, folder_path in folders.items():
+            if path == folder_path: return True
+        return False
 
     def file_sort (self, file_path:str, folder:str) :
         """ Sorts the files passed to it by file_type_check,
@@ -59,6 +63,8 @@ class FileOrganizer():
 
         if file == folders["Downloads"] + '/.DS_Store':
             return 0        
+        if self.is_sort_folder(file):
+            return 0
         file_ext = os.path.splitext(file)[-1]
         if file_ext == '.dmg':
             self.file_sort(file, folders["InstallerFiles"])
@@ -78,15 +84,24 @@ class FileOrganizer():
         """Used to sort the downloads into their respective folders. Takes no arguments."""
         dir = folders["Downloads"]
         if len(os.listdir(dir)) == 0:
-            print("No files to sort, Directory %s empty." % dir)
+            print("No files to sort, Directory %s empty or already sorted." % dir)
         num_sorted = 0
         for file in os.listdir(dir):
             num_sorted = num_sorted + self.file_type_check(dir + "/" + file)
         if num_sorted > 0 : print("Number of Sorted files: " + str(num_sorted))
-        else: print("No files to sort, Directory %s empty." % dir)
+        else: print("No files to sort, Directory %s empty or already sorted." % dir)
         
 
 
 if __name__ == "__main__":
-    organize = FileOrganizer()
-    organize.run_sort()
+    valid_answer = False
+    while not valid_answer:
+        run = input("Do you want to run FileOrganizer? [Y/N]\n")
+        if run == "Y":
+            organize = FileOrganizer()
+            organize.run_sort()
+            valid_answer = True
+        elif run == "N":
+            valid_answer = True
+        else:
+            print("Please type Y or N.")
