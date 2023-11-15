@@ -169,19 +169,6 @@ if __name__ == "__main__":
     with open(check.get_settings(), 'w') as outfile:
             json_object = json.dumps(settings, indent = 4)
             outfile.write(json_object)
-    
-
-   
-    
-
-    
-
-    # if settings["hasRunSetup"] == True:
-    #     answer0 = input("""Looks like you've already set up pyManager, would you like to: \n
-    #                     1. Run a fresh setup?\n
-    #                     2. Change some settings?\n """)
-    #     if answer0 == '2':
-    #         pass
         
 
 
